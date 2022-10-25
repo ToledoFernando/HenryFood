@@ -1,0 +1,109 @@
+.backDetail{
+  background: url('../../imagenes/fondoCreate2.jpg');
+  background-size:  cover;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  z-index: 1;
+}
+.detail{
+  background-color: #000000b0;
+  width: 90%;
+  position: absolute;
+  left: 0; 
+  right: 0; 
+  top: 10%;
+  margin-left: auto; 
+  margin-right: auto;
+}
+
+.detail img{
+  width: 300px;
+  margin-top: 20px;
+  margin-left: 20px;
+}
+
+.principal{
+  display: flex;
+  color: #fff;
+
+}
+
+.principal div{
+  margin-left: 25px;
+  margin-right: 25px;
+}
+
+.data{
+  text-align: center;
+  display: flex;
+  margin: auto;
+}
+
+.uno{
+  flex-direction: column;
+}
+
+.soloStep, .summary{
+  background-color: #3b3939b0;
+  width: 97%;
+  margin: 10px;
+  font-size: 13px;
+  color: #9a9898;
+}
+
+.stepsN{
+  background-color: #1b1818b0;
+  color: #fff;
+  padding: 5px 8px;
+  margin-left: 140px;
+  border-radius: 4px;
+}
+
+.stepData{
+  background-color: #1b1818b0;
+  color: #fff;
+  width: 80%;
+  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
+
+.VolverDetail{
+  background-color: #363636;
+  color: #ababab;
+  padding: 5px 8px;
+  border: 0;
+  border-radius: 4px;
+  position: absolute;
+  margin-top: 10px;
+  margin-left: 20px;
+  cursor: pointer;
+}
+
+.VolverDetail:hover{
+  background-color: #4d4b4b;
+  color: #e6e6e6;
+  
+}
+
+
+@media only screen and (max-width: 900px){
+  .principal{
+    display: flex;
+    flex-direction: column;
+  }
+
+  .principal div{
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  .data{
+    flex-direction: column;
+  }
+  .detail img{
+    margin: auto;
+    margin-top: 30px;
+  }
+}

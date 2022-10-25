@@ -1,0 +1,30 @@
+.Card{
+  background-color: #00000094;
+  border-radius: 10px;
+  width: 280px;
+  margin: 20px;
+  text-align: center;
+  transition: all 0.4s;
+  height: max-content;
+  padding-bottom: 10px;
+  z-index: 200;
+}
+.Card a{
+  color: #fff;
+  text-decoration: none;
+}
+
+.Card .titulo{
+  margin: 5px 0;
+  font-size: 20px;
+}
+.Card:hover{
+  background-color: #000000b5;
+  transform: scale(1.1);
+}
+
+.imgRecipe{
+  margin: 8px;
+  width: 95%;
+  height: 50%;
+}
