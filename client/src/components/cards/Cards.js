@@ -9,7 +9,7 @@ export default function Card({ id, name, image, diets, score }) {
     <div id={id} className="Card">
       <Link to={`/recipe/${id}`}>
         <p className="titulo">{name}</p>
-        <img src={image} className="imgRecipe" />
+        <img src={image} alt={name} className="imgRecipe" />
         <p>Type Diets: </p>
         <p>{diets}</p>
         <br />

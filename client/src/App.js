@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Switch, Route, BrowserRouter } from "react-router-dom";
 import Home from "./pages/Home/Home";
-import NotFound from "./pages/NotFound/NotFound";
+import NotFound from "./components/notFound/NotFound";
 import RecipeDetail from "./pages/RecipeDetail/RecipeDetail";
 import Recipes from "./pages/Recipes/Recipes";
 import CreateRecipe from "./pages/CreateRecipe/CreateRecipe";

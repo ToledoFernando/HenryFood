@@ -117,9 +117,11 @@ export default function reducer(state = initialState, action) {
       let all = state.recipesCopy;
       let filt = [];
       console.log(action.payload);
-      if (action.payload == "DB") filt = all.filter((e) => e.db);
-      else if (action.payload == "API") filt = all.filter((e) => !e.db);
+      if (action.payload === "DB") filt = all.filter((e) => e.db);
+      else if (action.payload === "API") filt = all.filter((e) => !e.db);
       else filt = all;
+      // console.log(filt.length);
+      if (!filt.length) filt.push("Not Found");
       return {
         ...state,
         recipes: filt,

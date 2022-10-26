@@ -11,7 +11,6 @@ export default function Home() {
       <a
         className="by"
         href="https://www.linkedin.com/in/toledo-fernando-266612245/"
-        target="_blank"
       >
         By: Toledo
       </a>

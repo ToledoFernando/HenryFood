@@ -75,7 +75,9 @@ export const postRecipe = (newRecipe) => {
 export const get_recipeById = (id) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.get(`http://192.168.1.13:3001/recipe/${id}`);
+      const { data } = await axios.get(
+        `http://192.168.1.13:3001/recipes/${id}`
+      );
       return dispatch({
         type: GET_RECIPEBYID,
         payload: data,

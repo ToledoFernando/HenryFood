@@ -52,7 +52,7 @@ export const Paginado = ({ total, cantidad, set, buscar }) => {
       <Link className="BackHome" to="/">
         Inicio
       </Link>
-      <h1>Welcome to Page Food</h1>
+      <h1>Recipes App</h1>
       <div className="opcionesFilt">
         <div className="Buscador">
           <form>
@@ -74,8 +74,8 @@ export const Paginado = ({ total, cantidad, set, buscar }) => {
             <option value="default" disabled>
               Ordenar por Nombre
             </option>
-            <option value="ASD">ASC</option>
-            <option value="DES">DES</option>
+            <option value="ASD">A-Z</option>
+            <option value="DES">Z-A</option>
           </select>
 
           <select onChange={FilterScore} defaultValue="default">

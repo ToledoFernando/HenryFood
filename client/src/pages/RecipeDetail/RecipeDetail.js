@@ -1,8 +1,10 @@
 import { useParams, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import icono from "../../imagenes/icono.png";
 import "./RecipeDetail.css";
 import { useEffect } from "react";
-import { getDetail } from "../../redux/actions/actions";
+import { clean_data, get_recipeById } from "../../redux/actions/actions";
+import NotFound from "../../components/notFound/NotFound";
 
 export default function RecipeDetail() {
   const dispatch = useDispatch();
@@ -11,19 +13,27 @@ export default function RecipeDetail() {
   const histori = useHistory();
 
   useEffect(() => {
-    dispatch(getDetail(id));
-    console.log(recipe);
+    dispatch(get_recipeById(id));
   }, [dispatch]);
 
-  let dietas = recipe.diets;
+  const volver = () => {
+    dispatch(clean_data());
+    histori.goBack();
+  };
 
-  return (
+  return !recipe ? (
+    <NotFound />
+  ) : (
     <div className="backDetail">
-      <button className="VolverDetail" onClick={() => histori.goBack()}>
+      <button className="VolverDetail" onClick={volver}>
         Volver
       </button>
       {!recipe.name ? (
-        <h1>404 NotFound :c</h1>
+        <div className="cargando">
+          <img src={icono} className="icono" alt="" />
+          <div className="race-by"></div>
+          <p>Loading...</p>
+        </div>
       ) : (
         <div className="detail">
           <div className="principal">
@@ -51,15 +61,15 @@ export default function RecipeDetail() {
               </div>
               <div>
                 <h3>Diets</h3>
-                {!dietas[0].name
-                  ? dietas.map((e) => <p key={e}>{e}</p>)
-                  : dietas.map((e) => <p key={e.id}>{e.name}</p>)}
+                {!recipe.diets[0].name
+                  ? recipe.diets.map((e) => <p key={e}>{e}</p>)
+                  : recipe.diets.map((e) => <p key={e.id}>{e.name}</p>)}
               </div>
             </div>
           </div>
-          <p name="summary" className="summary">
-            {recipe.summary}
-          </p>
+          <div name="summary" className="summary">
+            {recipe.summary.replace(/<[^>]*>/g, "")}
+          </div>
           {Array.isArray(recipe.steps) ? (
             recipe.steps.map((e) => {
               return (

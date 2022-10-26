@@ -2,8 +2,17 @@ import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { get_Diets, postRecipe } from "../../redux/actions/actions";
-import { store } from "../../redux/store/store";
 import "./CreateRecipe.css";
+
+const initial = {
+  dishTypes: "",
+  name: "",
+  summary: "",
+  healthyScore: 0,
+  steps: "",
+  image: "",
+  diets: [],
+};
 
 export default function CreateRecipe() {
   const diets = useSelector((state) => state.diets);
@@ -12,16 +21,7 @@ export default function CreateRecipe() {
   const [Ds, setDs] = useState([]);
 
   const [type, setType] = useState(true);
-  const [error, setError] = useState(false);
-  const [input, setInput] = useState({
-    dishTypes: "",
-    name: "",
-    summary: "",
-    healthyScore: 0,
-    steps: "",
-    image: "",
-    diets: [],
-  });
+  const [input, setInput] = useState(initial);
 
   useEffect(() => {
     dispatch(get_Diets());
@@ -29,7 +29,6 @@ export default function CreateRecipe() {
 
   const HandleChange = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
-    setError(validator());
   };
 
   const HandleSelect = (e) => {
@@ -37,7 +36,6 @@ export default function CreateRecipe() {
       setInput({ ...input, diets: [...input.diets, e.target.value] });
       let result = diets.filter((a) => a.id == e.target.value);
       setDs([...Ds, result[0]]);
-      setError(validator());
     } else {
       alert("Ya agregado");
     }
@@ -51,35 +49,26 @@ export default function CreateRecipe() {
   const HandleSubmit = (e) => {
     e.preventDefault();
     dispatch(postRecipe(input))
-      .then((e) => alert("Producto Agregado con exito"))
+      .then((e) => {
+        setInput(initial);
+        alert("Producto Agregado con exito");
+        histori.goBack();
+      })
       .catch((err) => {
         console.log(err);
         alert("Ocurrio un error");
       });
   };
-  const validator = () => {
-    let result = true;
-    if (input.image.length === 0) {
-      result = false;
-    } else if (input.name.length === 0) {
-      result = false;
-    } else if (input.summary.length === 0) {
-      result = false;
-      console.log(input);
-    } else if (
-      Number(input.healthyScore) === 0 ||
-      Number(input.healthyScore) > 100
-    ) {
-      result = false;
-    } else if (input.dishTypes.length === 0) {
-      result = false;
-    } else if (input.diets.length === 0) {
-      result = false;
-    } else if (input.steps.length === 0) {
-      result = false;
-    }
-    return result;
-  };
+
+  const validator =
+    input.name.length < 5 ||
+    input.image.length < 10 ||
+    input.summary.length < 15 ||
+    !input.diets[0] ||
+    input.healthyScore > 100 ||
+    input.healthyScore < 0 ||
+    input.dishTypes.length < 3 ||
+    input.steps.length < 15;
 
   return (
     <div className="CreateRecipe">
@@ -98,7 +87,7 @@ export default function CreateRecipe() {
             placeholder="URL image"
             value={input.image}
           />
-          {input.image.length < 7 ? (
+          {input.image.length <= 9 ? (
             <p className="Error">Falta URL de imagen</p>
           ) : null}
           <p className="info">Name</p>
@@ -110,7 +99,7 @@ export default function CreateRecipe() {
             placeholder="Name"
             value={input.name}
           />
-          {input.name.length < 4 ? (
+          {input.name.length <= 4 ? (
             <p className="Error">Falta un Nombre</p>
           ) : null}
 
@@ -123,7 +112,7 @@ export default function CreateRecipe() {
             onChange={HandleChange}
             value={input.summary}
           ></textarea>
-          {input.summary.length < 10 ? (
+          {input.summary.length <= 14 ? (
             <p className="Error">Falta Summary (Min 10 caracteres)</p>
           ) : null}
 
@@ -143,16 +132,20 @@ export default function CreateRecipe() {
             <input
               type="range"
               name="healthyScore"
+              min="0"
               max="100"
               onChange={HandleChange}
               value={input.healthyScore}
             />
           )}
           {input.healthyScore >= 101 ? (
-            <p>Maximo de 100</p>
+            <p className="Error">Maximo de 100</p>
           ) : (
             <label className="ScoreLabel">{input.healthyScore}</label>
           )}
+          {input.healthyScore < 0 || input.healthyScore.length === 0 ? (
+            <p className="Error"> Minimo de 0</p>
+          ) : null}
 
           <p className="info">DishTypes</p>
           <input
@@ -164,7 +157,8 @@ export default function CreateRecipe() {
             value={input.dishTypes}
           />
           <br />
-          <select name="diets" onChange={HandleSelect}>
+          <label className="info">Diets: </label>
+          <select name="diets" className="diets" onChange={HandleSelect}>
             {!diets.length ? (
               <option>Cargando...</option>
             ) : (
@@ -183,9 +177,9 @@ export default function CreateRecipe() {
             {!Ds
               ? null
               : Ds.map((e) => (
-                  <div>
+                  <div key={e.id}>
                     <div className="dietAdd">
-                      <p key={e.id}>{e.name}</p>
+                      <p>{e.name}</p>
                       <button
                         onClick={(a) => {
                           a.preventDefault();
@@ -211,7 +205,7 @@ export default function CreateRecipe() {
           <br />
           <div className="divCreate">
             <input
-              disabled={!error}
+              disabled={validator}
               className="create"
               type="submit"
               value="Create Recipe"

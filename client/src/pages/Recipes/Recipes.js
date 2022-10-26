@@ -45,6 +45,8 @@ export default function Recipes() {
             <img src={icono} className="icono" alt="" />
             <div className="race-by"></div>
           </div>
+        ) : allPage[0] === "Not Found" ? (
+          <h1 className="SinRecetas">Sin Recetas :c</h1>
         ) : (
           allPage.map((K) => (
             <Card
